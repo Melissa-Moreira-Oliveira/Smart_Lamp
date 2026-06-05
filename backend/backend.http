@@ -1,0 +1,35 @@
+﻿@backend_HostAddress = http://localhost:5000
+
+### Root
+GET {{backend_HostAddress}}/
+
+### Get current command (ESP32 polls this)
+GET {{backend_HostAddress}}/api/command
+Accept: application/json
+
+### Set AUTO mode
+POST {{backend_HostAddress}}/api/command/auto
+
+### Set MANUAL mode (lampOn=true)
+POST {{backend_HostAddress}}/api/command/manual?lampOn=true
+
+### Send telemetry (ESP32 -> backend)
+POST {{backend_HostAddress}}/api/telemetry
+Content-Type: application/json
+
+{
+  "pir": true,
+  "ldr": 1234,
+  "lampOn": true,
+  "mode": "manual",
+  "uptimeMs": 424242
+}
+
+### Get latest telemetry
+GET {{backend_HostAddress}}/api/telemetry/latest
+Accept: application/json
+
+### Device status (latest telemetry + current command)
+GET {{backend_HostAddress}}/api/device/status
+Accept: application/json
+
